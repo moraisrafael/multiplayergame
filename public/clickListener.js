@@ -1,6 +1,13 @@
-export default function createKeyboardListener() {
+export default function createClickListener() {
     const state = {
         observers: [],
+    };
+
+    const keyboardGameInputs = {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
+        ArrowLeft: 'left',
+        ArrowRight: 'right',
     };
 
     function subscribe(observerFunction) {
@@ -12,18 +19,6 @@ export default function createKeyboardListener() {
             observerFunction(command);
         }
     }
-
-    function handleKeydown(event) {
-        const keyPressed = event.key;
-        const command = {
-            keyPressed: keyPressed,
-        };
-
-        notifyAll(command);
-    }
-
-    document.addEventListener('keydown', handleKeydown);
-
     return {
         subscribe,
     };
