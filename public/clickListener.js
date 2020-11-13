@@ -1,13 +1,6 @@
-export default function createClickListener() {
+export default function createClickListener(element) {
     const state = {
         observers: [],
-    };
-
-    const keyboardGameInputs = {
-        ArrowUp: 'up',
-        ArrowDown: 'down',
-        ArrowLeft: 'left',
-        ArrowRight: 'right',
     };
 
     function subscribe(observerFunction) {
@@ -19,6 +12,21 @@ export default function createClickListener() {
             observerFunction(command);
         }
     }
+
+    function handleClick(event) {
+        const x = event.offsetX;
+        const y = event.offsetY;
+
+        const command = {
+            x: x,
+            y: y,
+        };
+
+        notifyAll(command);
+    }
+
+    element.addEventListener('click', handleClick);
+
     return {
         subscribe,
     };

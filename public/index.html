@@ -10,6 +10,8 @@
                 image-rendering: -moz-crisp-edges;
                 width: 400px;
                 height: 400px;
+                touch-action: manipulation;
+                -ms-touch-action: manipulation;
             }
         </style>
         <script src="/socket.io/socket.io.js"></script>
@@ -52,7 +54,7 @@
             });
 
             const keyboardListener = createKeyboardListener();
-            const clickListener = createClickListener();
+            const clickListener = createClickListener(screen);
 
             const inputHandler = createInputHandler(screen);
 

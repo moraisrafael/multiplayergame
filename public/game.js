@@ -144,7 +144,7 @@ export default function createGame() {
         notifyAll({
             type: 'movePlayer',
             playerId: command.playerId,
-            keyPressed: command.gameInput,
+            gameInput: command.gameInput,
         });
     }
 
