@@ -38,6 +38,7 @@ export default function createGame() {
         state.players[playerId] = {
             x: playerX,
             y: playerY,
+            score: 0,
         };
 
         notifyAll({
@@ -56,6 +57,17 @@ export default function createGame() {
         notifyAll({
             type: 'removePlayer',
             playerId: playerId,
+        });
+    }
+
+    function addScore(command) {
+        const player = state.players[command.playerId];
+        player.score += command.score;
+
+        notifyAll({
+            type: 'addScore',
+            playerId: command.playerId,
+            score: command.score,
         });
     }
 
@@ -139,6 +151,10 @@ export default function createGame() {
             for (const candyId of colisionArray) {
                 removeCandy({ candyId: candyId });
             }
+            addScore({
+                playerId: command.playerId,
+                score: colisionArray.length,
+            });
         }
 
         notifyAll({
@@ -167,6 +183,7 @@ export default function createGame() {
         setState,
         addPlayer,
         removePlayer,
+        addScore,
         addCandy,
         removeCandy,
         movePlayer,

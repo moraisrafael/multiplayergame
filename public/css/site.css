@@ -1,0 +1,40 @@
+body {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+#gameDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#gameCanvas {
+    background-color: white;
+    box-shadow: 0px 0px 5px 1px gray, 5px 5px 5px 3px lightgray;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    width: 90%;
+    max-width: 514px;
+    height: auto;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+}
+
+#scoreBoard {
+    /* background-color: white; */
+    /* box-shadow: 0px 0px ;5px 1px gray, 5px 5px 5px 3px lightgray; */
+    width: 200px;
+    margin: 0 30px 0 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+#playerList div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 8px 5px;
+}

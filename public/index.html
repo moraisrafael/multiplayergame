@@ -2,37 +2,35 @@
     <head>
         <meta charset="utf-8" />
         <title>My first multiplayer game</title>
-        <style>
-            #screen {
-                border: 10px solid #ccc;
-                image-rendering: pixelated;
-                image-rendering: crisp-edges;
-                image-rendering: -moz-crisp-edges;
-                width: 400px;
-                height: 400px;
-                touch-action: manipulation;
-                -ms-touch-action: manipulation;
-            }
-        </style>
+        <link rel="stylesheet" href="/css/site.css" />
         <script src="/socket.io/socket.io.js"></script>
     </head>
-
     <body>
         <h1>My first multiplayer game</h1>
-        <canvas id="screen" width="10" height="10"></canvas>
+        <div id="gameDiv">
+            <canvas id="gameCanvas" width="10" height="10"></canvas>
+            <div>
+                <div id="scoreBoard">
+                    <h2>Top 10 players</h2>
+                    <div id="playerList"></div>
+                </div>
+            </div>
+        </div>
         <script type="module">
             import createKeyboardListener from './keyboardListener.js';
             import createClickListener from './clickListener.js';
             import createInputHandler from './inputHandler.js';
             import createGame from './game.js';
             import renderScreen from './renderScreen.js';
+            import createScoreBoard from './scoreBoard.js';
 
             let playerId = '';
 
             const game = createGame();
             export default game;
 
-            const screen = document.getElementById('screen');
+            const gameCanvas = document.getElementById('gameCanvas');
+            const scoreBoard = document.getElementById('playerList');
 
             const socket = io();
 
@@ -40,11 +38,12 @@
                 playerId = socket.id;
                 console.log(`Player connected on Client with id ${playerId}`);
 
-                renderScreen(screen, game, playerId);
+                renderScreen(gameCanvas, game, playerId);
             });
 
             socket.on('setup', (state) => {
                 game.setState(state);
+                createScoreBoard({ scoreBoard: scoreBoard, game: game });
             });
 
             socket.on('stateChange', (command) => {
@@ -54,9 +53,9 @@
             });
 
             const keyboardListener = createKeyboardListener();
-            const clickListener = createClickListener(screen);
+            const clickListener = createClickListener(gameCanvas);
 
-            const inputHandler = createInputHandler(screen);
+            const inputHandler = createInputHandler(gameCanvas);
 
             inputHandler.subscribe((command) => {
                 game.movePlayer({
