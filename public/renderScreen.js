@@ -3,8 +3,11 @@ const CurrentPlayerColor = 'green';
 const playerColor = 'gray';
 const candyColor = 'blue';
 
-export default function renderScreen(screen, game, currentPlayerId) {
-    const context = screen.getContext('2d');
+export default function renderScreen(canvas, game, currentPlayerId) {
+    canvas.width = game.state.screen.width;
+    canvas.height = game.state.screen.height;
+
+    const context = canvas.getContext('2d');
 
     context.fillStyle = backgroundColor;
     context.clearRect(0, 0, 10, 10);
@@ -25,5 +28,5 @@ export default function renderScreen(screen, game, currentPlayerId) {
         context.fillRect(candy.x, candy.y, 1, 1);
     }
 
-    requestAnimationFrame(() => renderScreen(screen, game, currentPlayerId));
+    requestAnimationFrame(() => renderScreen(canvas, game, currentPlayerId));
 }

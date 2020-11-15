@@ -17,7 +17,7 @@ export default function createScoreBoard(command) {
 
         for (let i = 0; i < 10 && i < players.length; i++) {
             const player = players[i];
-            scoreBoardInnerHTML += `<div><span class="">${player.name}</span> <span class="playerScore">${player.score}</span></div>`;
+            scoreBoardInnerHTML += `<div><span class="">${player.name}</span>&nbsp&nbsp<span class="playerScore">${player.score}</span></div>`;
         }
 
         scoreBoard.innerHTML = scoreBoardInnerHTML;
