@@ -29,8 +29,16 @@ sockets.on('connection', (socket) => {
 
     socket.emit('setup', game.state);
 
+    socket.on('configurePlayer', (command) => {
+        command.playerId = playerId;
+
+        game.configurePlayer(command);
+    });
+
     socket.on('movePlayer', (command) => {
-        game.movePlayer({ playerId: playerId, gameInput: command.gameInput });
+        command.playerId = playerId;
+
+        game.movePlayer(command);
     });
 
     socket.on('disconnect', () => {

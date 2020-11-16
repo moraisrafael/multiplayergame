@@ -56,7 +56,6 @@ export default function createInputHandler(gameWindow) {
         }
 
         if (clickAt) {
-            console.log(`Click at ${clickAt}`);
             notifyAll({ gameInput: clickAt });
         }
     }

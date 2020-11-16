@@ -1,0 +1,61 @@
+@media (orientation: landscape) {
+    #gameDiv {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+@media (orientation: portrait) {
+    #gameDiv {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+#gameDiv {
+    margin-top: 4vmin;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+#gameCanvas {
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 700px;
+    max-height: 700px;
+    background-color: white;
+    box-shadow: 0px 0px 5px 1px gray, 5px 5px 5px 3px lightgray;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+}
+
+#gameText {
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+}
+
+#scoreBoard {
+    /* background-color: white; */
+    /* box-shadow: 0px 0px ;5px 1px gray, 5px 5px 5px 3px lightgray; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#playerList div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 8px 5px;
+}
+
+#playerScore {
+    font-weight: bold;
+}

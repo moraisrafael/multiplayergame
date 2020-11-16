@@ -26,6 +26,7 @@ export default function createGame() {
 
     function addPlayer(command) {
         const playerId = command.playerId;
+        const playerName = command.playerName ? command.playerName : playerId;
         const playerX =
             'playerX' in command
                 ? command.playerX
@@ -36,6 +37,7 @@ export default function createGame() {
                 : Math.floor(Math.random() * state.screen.height);
 
         state.players[playerId] = {
+            playerName: playerName,
             x: playerX,
             y: playerY,
             score: 0,
@@ -44,6 +46,7 @@ export default function createGame() {
         notifyAll({
             type: 'addPlayer',
             playerId: playerId,
+            playerName: playerName,
             playerX: playerX,
             playerY: playerY,
         });
@@ -58,6 +61,22 @@ export default function createGame() {
             type: 'removePlayer',
             playerId: playerId,
         });
+    }
+
+    function configurePlayer(command) {
+        const playerId = command.playerId;
+        const playerName = command.playerName.substring(0, 20);
+        const player = state.players[playerId];
+
+        if (player && playerName) {
+            player.playerName = playerName;
+
+            notifyAll({
+                type: 'configurePlayer',
+                playerId: playerId,
+                playerName: playerName,
+            });
+        }
     }
 
     function addScore(command) {
@@ -183,6 +202,7 @@ export default function createGame() {
         setState,
         addPlayer,
         removePlayer,
+        configurePlayer,
         addScore,
         addCandy,
         removeCandy,
