@@ -1,0 +1,17 @@
+form {
+    text-align: left;
+}
+
+input {
+    display: block;
+}
+
+#configuration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#submit {
+    margin-top: 15px;
+}

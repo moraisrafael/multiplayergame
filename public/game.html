@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>My first multiplayer game</title>
+        <link rel="stylesheet" href="/css/site.css" />
+        <link rel="stylesheet" href="/css/game.css" />
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <div id="gameDiv">
+            <canvas id="gameCanvas"></canvas>
+            <div id="gameText">
+                <h1>My first multiplayer game</h1>
+                <div id="scoreBoard">
+                    <h2>Top 10 players</h2>
+                    <div id="playerList"></div>
+                </div>
+            </div>
+        </div>
+        <script type="module">
+            import { getUrlParameters } from './urlParamDecoder.js';
+            import createKeyboardListener from './keyboardListener.js';
+            import createClickListener from './clickListener.js';
+            import createInputHandler from './inputHandler.js';
+            import createGame from './game.js';
+            import renderScreen from './renderScreen.js';
+            import createScoreBoard from './scoreBoard.js';
+
+            let playerId = '';
+            let playerName = '';
+
+            const urlParameters = getUrlParameters();
+
+            const game = createGame();
+            export default game;
+
+            const gameCanvas = document.getElementById('gameCanvas');
+            const scoreBoard = document.getElementById('playerList');
+
+            const socket = io();
+
+            socket.on('connect', () => {
+                playerId = socket.id;
+                console.log(`Player connected on Client with id ${playerId}`);
+
+                renderScreen(gameCanvas, game, playerId);
+            });
+
+            socket.on('setup', (state) => {
+                game.setState(state);
+
+                playerName = urlParameters.playerName;
+
+                game.configurePlayer({
+                    playerId: playerId,
+                    playerName: playerName,
+                });
+                socket.emit('configurePlayer', { playerName: playerName });
+
+                createScoreBoard({ scoreBoard: scoreBoard, game: game });
+            });
+
+            socket.on('stateChange', (command) => {
+                if (!command.playerId || command.playerId != playerId) {
+                    game[command.type](command);
+                }
+            });
+
+            const keyboardListener = createKeyboardListener();
+            const clickListener = createClickListener(gameCanvas);
+
+            const inputHandler = createInputHandler(gameCanvas);
+
+            inputHandler.subscribe((command) => {
+                game.movePlayer({
+                    playerId: playerId,
+                    gameInput: command.gameInput,
+                });
+            });
+
+            inputHandler.subscribe((command) => {
+                socket.emit('movePlayer', command);
+            });
+
+            keyboardListener.subscribe((command) => {
+                inputHandler.keyPress({
+                    playerId: playerId,
+                    keyPressed: command.keyPressed,
+                });
+            });
+
+            clickListener.subscribe((command) => {
+                inputHandler.click({
+                    playerId: playerId,
+                    x: command.x,
+                    y: command.y,
+                });
+            });
+        </script>
+    </body>
+</html>
